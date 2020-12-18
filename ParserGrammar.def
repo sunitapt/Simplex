@@ -1,0 +1,59 @@
+assign   =   keyword identifier  assignment   exp   semicolon
+update  =   identifier  assignment   exp   semicolon
+if_else_statement   =   if  leftCircular condition rightCircular leftCurly  statement   rightCurly    else    leftCurly   statement   rightCurly
+if_statement   =   if  leftCircular condition rightCircular leftCurly  statement   rightCurly
+while_statement   =   while leftCircular  condition   rightCircular   leftCurly   statement   rightCurly
+
+function_definition =   function    identifier  leftCircular    function_definition_optional_params    rightCircular   leftCurly   statement   rightCurly
+function_call   =   identifier leftCircular optional_params rightCircular
+function_definition_optional_params =   identifier functional_definition_params
+function_definition_optional_params =   epsilon
+functional_definition_params    =   comma   identifier  functional_definition_params
+functional_definition_params    =   epsilon
+optional_params =   exp   params
+optional_params =   epsilon
+params  =   comma   exp   params
+params  =   epsilon
+return_statement   =   return exp    semicolon
+return_statement   =   return semicolon
+
+#root
+statement   =   return_statement
+statement   =   function_call   semicolon   statement
+statement   =   function_definition statement
+statement   =   while_statement statement
+statement   =   update  statement
+statement   =   assign  statement
+statement   =   if_else_statement statement
+statement   =   if_statement    statement
+statement   =   epsilon
+
+#conditonal
+condition   =   exp  comparator  exp
+
+comparator  =   equals
+comparator  =   greaterThanEqual
+comparator  =   lesserThanEqual
+comparator  =   lesserThan
+comparator  =   greaterThan
+
+# expressions un ambigous grammar for arthimetic expression
+exp =   exp_1 add exp
+exp =   exp_1 sub exp
+exp =   exp_1
+exp_1   =   exp_2 mul exp_1
+exp_1   =   exp_2 divide  exp_1
+exp_1   =   exp_2 modulo  exp_1
+exp_1   =   exp_2
+exp_2   =   increment exp_3
+exp_2   =   decrement exp_3
+exp_2   =   add exp_3
+exp_2   =   sub exp_3
+exp_2   =   exp_3
+exp_3   =   exp_4 increment
+exp_3   =   exp_4 decrement
+exp_3   =   exp_4
+exp_4   =   function_call
+exp_4   =   number
+exp_4   =   identifier
+
